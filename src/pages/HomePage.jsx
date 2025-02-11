@@ -1,14 +1,20 @@
-import MovieList from "../components/MovieList";
+import MovieList from "../components/MovieList/MovieList";
 import { fetchTrendingMovies } from "../services/api";
 // import { NavLink, Outlet } from 'react-router-dom';
 import { useState, useEffect } from "react";
 
 const HomePage = () => {
   const [movies, setMovies] = useState([]);
+
   useEffect(() => {
     const getData = async () => {
-      const data = await fetchTrendingMovies();
-      setMovies(data);
+      const response = await fetchTrendingMovies();
+      if (response.results) {
+        setMovies(response.results); // Переконайся, що передаєш саме масив
+      } else {
+        console.error("Unexpected API response:", response);
+      }
+      // setMovies(data);
     };
     getData();
   }, []);

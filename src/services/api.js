@@ -6,22 +6,21 @@ const TOKEN_API =
 const TREND_URL =
   "https://api.themoviedb.org/3/trending/movie/day?language=en-US";
 
-const options = {
-  method: "GET",
-  headers: {
-    accept: "application/json",
-    Authorization: `Bearer ${TOKEN_API}`,
-  },
-};
-
 export const fetchTrendingMovies = async () => {
   try {
-    const response = await axios.get(TREND_URL, options);
+    const response = await axios.get(TREND_URL, {
+      headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${TOKEN_API}`,
+      },
+    });
     console.log("Full Response:", response);
-    console.log("Status Code:", response.status);
     return response.data;
   } catch (error) {
-    console.error("Error fetching trending movies:", error.message);
+    console.error(
+      "Error fetching trending movies:",
+      error.response?.data || error.message
+    );
     return {
       error: "Failed to fetch trending movies. Please try again later.",
     };
